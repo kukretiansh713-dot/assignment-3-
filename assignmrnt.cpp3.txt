@@ -1,0 +1,575 @@
+Here are the 15 C++ answers. Each code block is a separate program, so compile and run them one at a time.
+
+## 1. Function to check whether a number is prime
+
+```cpp
+#include <iostream>
+using namespace std;
+
+bool isPrime(int number) {
+    if (number < 2)
+        return false;
+
+    for (int i = 2; i <= number / i; i++) {
+        if (number % i == 0)
+            return false;
+    }
+    return true;
+}
+
+int main() {
+    int number;
+    cout << "Enter a number: ";
+    cin >> number;
+
+    if (isPrime(number))
+        cout << number << " is prime.";
+    else
+        cout << number << " is not prime.";
+
+    return 0;
+}
+```
+
+## 2. Function to print the Fibonacci series
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void printFibonacci(int count) {
+    int first = 0, second = 1;
+
+    for (int i = 0; i < count; i++) {
+        cout << first << " ";
+        int next = first + second;
+        first = second;
+        second = next;
+    }
+}
+
+int main() {
+    int count;
+    cout << "How many terms? ";
+    cin >> count;
+
+    printFibonacci(count);
+    return 0;
+}
+```
+
+## 3. Function to apply the Bubble Sort technique to an array
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void bubbleSort(int array[], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - 1 - i; j++) {
+            if (array[j] > array[j + 1]) {
+                int temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int array[100], size;
+
+    cout << "Enter number of elements: ";
+    cin >> size;
+
+    cout << "Enter the elements:\n";
+    for (int i = 0; i < size; i++)
+        cin >> array[i];
+
+    bubbleSort(array, size);
+
+    cout << "Sorted array: ";
+    for (int i = 0; i < size; i++)
+        cout << array[i] << " ";
+
+    return 0;
+}
+```
+
+## 4. Function to copy one string to another
+
+This version uses C++ strings.
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+void copyString(string source, string &destination) {
+    destination = source;
+}
+
+int main() {
+    string source, destination;
+
+    cout << "Enter a string: ";
+    getline(cin, source);
+
+    copyString(source, destination);
+
+    cout << "Copied string: " << destination;
+    return 0;
+}
+```
+
+## 5. Function to count the words in a string
+
+```cpp
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+
+int countWords(const string &text) {
+    int words = 0;
+    bool insideWord = false;
+
+    for (char ch : text) {
+        if (!isspace(static_cast<unsigned char>(ch)) && !insideWord) {
+            words++;
+            insideWord = true;
+        } else if (isspace(static_cast<unsigned char>(ch))) {
+            insideWord = false;
+        }
+    }
+
+    return words;
+}
+
+int main() {
+    string text;
+
+    cout << "Enter a sentence: ";
+    getline(cin, text);
+
+    cout << "Number of words: " << countWords(text);
+    return 0;
+}
+```
+
+## 6. Function to search for an element using Binary Search
+
+The array must be sorted in ascending order.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int binarySearch(int array[], int size, int target) {
+    int low = 0, high = size - 1;
+
+    while (low <= high) {
+        int middle = low + (high - low) / 2;
+
+        if (array[middle] == target)
+            return middle;
+        else if (array[middle] < target)
+            low = middle + 1;
+        else
+            high = middle - 1;
+    }
+
+    return -1;
+}
+
+int main() {
+    int array[100], size, target;
+
+    cout << "Enter number of elements: ";
+    cin >> size;
+
+    cout << "Enter elements in ascending order:\n";
+    for (int i = 0; i < size; i++)
+        cin >> array[i];
+
+    cout << "Enter element to search for: ";
+    cin >> target;
+
+    int index = binarySearch(array, size, target);
+
+    if (index == -1)
+        cout << "Element not found.";
+    else
+        cout << "Element found at position " << index + 1 << ".";
+
+    return 0;
+}
+```
+
+## 7. Function to find the sum of two matrices
+
+Both matrices must have the same dimensions.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 10;
+
+void addMatrices(int first[][MAX_SIZE], int second[][MAX_SIZE],
+                 int result[][MAX_SIZE], int rows, int columns) {
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < columns; j++)
+            result[i][j] = first[i][j] + second[i][j];
+}
+
+int main() {
+    int first[MAX_SIZE][MAX_SIZE], second[MAX_SIZE][MAX_SIZE];
+    int result[MAX_SIZE][MAX_SIZE];
+    int rows, columns;
+
+    cout << "Enter rows and columns: ";
+    cin >> rows >> columns;
+
+    cout << "Enter first matrix:\n";
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < columns; j++)
+            cin >> first[i][j];
+
+    cout << "Enter second matrix:\n";
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < columns; j++)
+            cin >> second[i][j];
+
+    addMatrices(first, second, result, rows, columns);
+
+    cout << "Sum of the matrices:\n";
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++)
+            cout << result[i][j] << " ";
+        cout << "\n";
+    }
+
+    return 0;
+}
+```
+
+## 8. Function to find the sum of the diagonal elements of a matrix
+
+This program adds the main diagonal of a square matrix.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 10;
+
+int diagonalSum(int matrix[][MAX_SIZE], int size) {
+    int sum = 0;
+
+    for (int i = 0; i < size; i++)
+        sum += matrix[i][i];
+
+    return sum;
+}
+
+int main() {
+    int matrix[MAX_SIZE][MAX_SIZE], size;
+
+    cout << "Enter the size of the square matrix: ";
+    cin >> size;
+
+    cout << "Enter matrix elements:\n";
+    for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
+            cin >> matrix[i][j];
+
+    cout << "Main diagonal sum: " << diagonalSum(matrix, size);
+    return 0;
+}
+```
+
+## 9. Swap two numbers using call-by-reference
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void swapNumbers(int &first, int &second) {
+    int temp = first;
+    first = second;
+    second = temp;
+}
+
+int main() {
+    int first, second;
+
+    cout << "Enter two numbers: ";
+    cin >> first >> second;
+
+    swapNumbers(first, second);
+
+    cout << "After swapping: " << first << " " << second;
+    return 0;
+}
+```
+
+## 10. `Student` class with input and display functions
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+    string name;
+    int roll_no;
+    double marks;
+
+public:
+    void input() {
+        cout << "Enter name: ";
+        getline(cin, name);
+
+        cout << "Enter roll number: ";
+        cin >> roll_no;
+
+        cout << "Enter marks: ";
+        cin >> marks;
+    }
+
+    void display() const {
+        cout << "\nStudent details\n";
+        cout << "Name: " << name << "\n";
+        cout << "Roll number: " << roll_no << "\n";
+        cout << "Marks: " << marks << "\n";
+    }
+};
+
+int main() {
+    Student student;
+    student.input();
+    student.display();
+
+    return 0;
+}
+```
+
+## 11. `Car` class with multiple objects
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Car {
+public:
+    string brand;
+    double price;
+
+    void display() const {
+        cout << "Brand: " << brand << ", Price: " << price << "\n";
+    }
+};
+
+int main() {
+    Car car1, car2;
+
+    car1.brand = "Toyota";
+    car1.price = 25000;
+
+    car2.brand = "Honda";
+    car2.price = 22000;
+
+    cout << "Car information:\n";
+    car1.display();
+    car2.display();
+
+    return 0;
+}
+```
+
+## 12. Encapsulation using a `BankAccount` class
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class BankAccount {
+private:
+    double balance;
+
+public:
+    BankAccount(double initialBalance = 0) {
+        balance = (initialBalance >= 0) ? initialBalance : 0;
+    }
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            cout << "Deposit successful.\n";
+        } else {
+            cout << "Deposit amount must be positive.\n";
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount <= 0) {
+            cout << "Withdrawal amount must be positive.\n";
+        } else if (amount > balance) {
+            cout << "Insufficient balance.\n";
+        } else {
+            balance -= amount;
+            cout << "Withdrawal successful.\n";
+        }
+    }
+
+    void displayBalance() const {
+        cout << "Balance: " << balance << "\n";
+    }
+};
+
+int main() {
+    BankAccount account(1000);
+
+    account.displayBalance();
+    account.deposit(500);
+    account.withdraw(200);
+    account.displayBalance();
+
+    return 0;
+}
+```
+
+## 13. Single inheritance: `Person` and `Student`
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+
+public:
+    void inputPerson() {
+        cout << "Enter name: ";
+        getline(cin, name);
+
+        cout << "Enter age: ";
+        cin >> age;
+    }
+
+    void displayPerson() const {
+        cout << "Name: " << name << "\n";
+        cout << "Age: " << age << "\n";
+    }
+};
+
+class Student : public Person {
+private:
+    double marks;
+
+public:
+    void inputStudent() {
+        inputPerson();
+
+        cout << "Enter marks: ";
+        cin >> marks;
+    }
+
+    void displayStudent() const {
+        displayPerson();
+        cout << "Marks: " << marks << "\n";
+    }
+};
+
+int main() {
+    Student student;
+    student.inputStudent();
+
+    cout << "\nStudent details:\n";
+    student.displayStudent();
+
+    return 0;
+}
+```
+
+## 14. Function overloading with a `Calculator` class
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Calculator {
+public:
+    int add(int first, int second) {
+        return first + second;
+    }
+
+    double add(double first, double second) {
+        return first + second;
+    }
+};
+
+int main() {
+    Calculator calculator;
+
+    cout << "Integer sum: " << calculator.add(5, 7) << "\n";
+    cout << "Decimal sum: " << calculator.add(2.5, 3.7) << "\n";
+
+    return 0;
+}
+```
+
+## 15. Abstraction using an abstract `Shape` class
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual double area() const = 0;  // Pure virtual function
+
+    virtual ~Shape() = default;
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    double area() const override {
+        return 3.14159 * radius * radius;
+    }
+};
+
+class Rectangle : public Shape {
+private:
+    double length;
+    double width;
+
+public:
+    Rectangle(double l, double w) : length(l), width(w) {}
+
+    double area() const override {
+        return length * width;
+    }
+};
+
+int main() {
+    Circle circle(5);
+    Rectangle rectangle(4, 6);
+
+    cout << "Circle area: " << circle.area() << "\n";
+    cout << "Rectangle area: " << rectangle.area() << "\n";
+
+    return 0;
+}
+```
